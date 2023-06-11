@@ -22,6 +22,14 @@ class Group(MethodView):
         db.session.delete(group)
         db.session.commit()
         return {"message": "Group deleted"}, 200
+    
+
+@blp.route("/group/<string:name>")
+class Group(MethodView):
+    @blp.response(200, GroupSchema)
+    def get(self, name):
+        group = GroupModel.query.filter(GroupModel.name == name).first()
+        return group
 
 
 @blp.route("/group")
