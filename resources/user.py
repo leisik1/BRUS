@@ -19,6 +19,7 @@ class UserRegister(MethodView):
             abort(409, message="A user with that username already exist.")
         user = UserModel(
             username = user_data["username"],
+            role = user_data["role"],
             password = pbkdf2_sha256.hash(user_data["password"])
         )
         db.session.add(user)

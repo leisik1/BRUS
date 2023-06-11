@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
 import os, secrets
+from models import UserModel
 
 from db import db
 import models
@@ -43,6 +44,17 @@ def create_app(db_url=None):
 
     app.config["JWT_SECRET_KEY"] = "33961537266497087393608063071386234145195543568047221054311225995612702632804"
     jwt = JWTManager(app)
+
+    @jwt.additional_claims_loader
+    def add_claims_for_rbac(identity):
+        user = UserModel.query.get_or_404(identity)
+        if user.role == "admin":
+            return {"role": "admin"}
+        elif user.role == "local_admin":
+            return {"role": "local_admin"}
+        else:
+            return {"role": "regular"}
+
 
     @jwt.expired_token_loader
     def expired_token_callback(jwt_header, jwt_payload):
