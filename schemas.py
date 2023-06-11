@@ -4,7 +4,7 @@ from marshmallow import Schema, fields
 class PlainItemSchema(Schema):
     id = fields.Int(dump_only=True)
     name = fields.Str(required=True)
-    price = fields.Float(required=True)
+    date = fields.Date(format="%Y-%m-%d")
 
 class PlainGroupSchema(Schema):
     id = fields.Int(dump_only=True)
@@ -21,7 +21,7 @@ class ItemSchema(PlainItemSchema):
 
 class ItemUpdateSchema(Schema):
     name = fields.Str()
-    price = fields.Float()
+    date = fields.Date(format="%Y-%m-%d")
     group_id = fields.Int()
 
 class GroupSchema(PlainGroupSchema):

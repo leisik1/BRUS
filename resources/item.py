@@ -30,7 +30,7 @@ class Item(MethodView):
         item = ItemModel.query.get(item_id)
 
         if item:
-            item.price = item_data["price"]
+            item.date = item_data["date"]
             item.name = item_data["name"]
         else:
             item = ItemModel(id=item_id, **item_data)
